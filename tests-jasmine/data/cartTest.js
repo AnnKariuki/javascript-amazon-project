@@ -1,5 +1,4 @@
 import { addToCart, cart, loadFromStorage } from "../../data/cart.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
 //the tests fail when we had export let cart = JSON.parse(localStorage.getItem('cart')); in cart.js. This is because the cart was loaded immediately when the cart was imported so the test had no 
 // chance to mock to spy first. The cart was already locked in so adding a new item to the cart would have unexpected number of items not 1. So by the time your test does: export let cart = JSON.parse(localStorage.getItem('cart'));
 //localStorage.getItem('cart') has already been called for real, and your fallback code likely set the default cart (2 items). Then addToCart() adds another item, so cart.length is not 1.
