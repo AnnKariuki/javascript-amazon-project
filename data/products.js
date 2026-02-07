@@ -1,4 +1,4 @@
-import {formatCurrency} from '../scripts/utils/money.js';
+import { formatCurrency } from '../scripts/utils/money.js';
 
 export function getProduct(productId) {
   let matchingProduct;
@@ -19,7 +19,7 @@ class Product {
   rating;
   priceCents;
 
-  constructor(productDetails){
+  constructor(productDetails) {
     this.id = productDetails.id;
     this.image = productDetails.image;
     this.name = productDetails.name;
@@ -27,15 +27,15 @@ class Product {
     this.priceCents = productDetails.priceCents;
   }
 
-  getStarsUrl(){
+  getStarsUrl() {
     return `images/ratings/rating-${this.rating.stars * 10}.png`
   }
 
-  getPrice(){
+  getPrice() {
     return `$${formatCurrency(this.priceCents)}`
   }
 
-    extraInfoHTML(){
+  extraInfoHTML() {
     return ``
   }
 }
@@ -71,13 +71,13 @@ obj3.method();
 class Clothing extends Product {
   sizeChartLink;
 
-  constructor(productDetails){
+  constructor(productDetails) {
     super(productDetails);
     this.sizeChartLink = productDetails.sizeChartLink;
   }
 
   //This is method overriding where the Clothing subclass is providing it's own specific implementation of the Product superclass
-  extraInfoHTML(){
+  extraInfoHTML() {
     //if you wanted to use the superclass' implementation of this method you could do:
     //super.extraInfoHTML();
     return `
@@ -85,6 +85,38 @@ class Clothing extends Product {
   }
 }
 
+export let products = [];
+
+//fun here is a callback, it is a function to run in the future
+export function loadProducts(fun) {
+  //XMLHttpRequest (XHR) objects are used to interact with servers. You can retrieve data from a URL without having to do a full page refresh. 
+  // This enables a Web page to update just part of a page without disrupting what the user is doing.
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', () => {
+   //convert json response to javascript object then convert them to Product and Clothing objects
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      if (productDetails.type === 'clothing') {
+        return new Clothing(productDetails);
+      }
+      return new Product(productDetails);
+    });
+
+    console.log('load products');
+
+    //wait for http request to come back with response then run the follow up code
+    fun();
+  });
+
+
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  //.send() is asynchronous, it will just send a request and not wait for a response to come back. In order to wait for a response we need to have an event listener on the object 
+  // waiting for the response to load
+  xhr.send();
+}
+
+loadProducts();
+/*
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -750,3 +782,4 @@ export const products = [
   }
   return new Product(productDetails);
 });
+*/

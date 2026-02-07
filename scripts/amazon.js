@@ -1,13 +1,20 @@
 // Optional: notice we can write imports on multiple
 // lines so the line doesn't get too long.
-import {cart, addToCart,
-  calculateCartQuantity} from '../data/cart.js';
-import {products} from '../data/products.js';
-import {formatCurrency} from './utils/money.js';
+import {
+  cart, addToCart,
+  calculateCartQuantity
+} from '../data/cart.js';
+import { products, loadProducts } from '../data/products.js';
+import { formatCurrency } from './utils/money.js';
 
-let productsHTML = '';
+//product array still empty since response not yet back. we wait for the http request to finish first then run the code to show the products on home page
+loadProducts(renderProductsGrid);
 
-products.forEach((product) => {
+function renderProductsGrid() {
+
+  let productsHTML = '';
+
+  products.forEach((product) => {
     productsHTML += `       
     <div class="product-container">
           <div class="product-image-container">
@@ -59,23 +66,24 @@ products.forEach((product) => {
             Add to Cart
           </button>
         </div>`;
-})
+  })
 
-document.querySelector('.js-products-grid').innerHTML = productsHTML;
+  document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-function updateCartQuantity(){
+  function updateCartQuantity() {
     const cartQuantity = calculateCartQuantity();
 
     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+  }
+
+  updateCartQuantity();
+
+  document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+    button.addEventListener('click', () => {
+      const productId = button.dataset.productId;
+
+      addToCart(productId);
+      updateCartQuantity()
+    });
+  })
 }
-
-updateCartQuantity();
-
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-  button.addEventListener('click', () => {
-    const productId = button.dataset.productId;
-
-    addToCart(productId);
-    updateCartQuantity()
-  });
-})
