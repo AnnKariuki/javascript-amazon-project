@@ -11,6 +11,7 @@ import { formatCurrency } from './utils/money.js';
 loadProducts(renderProductsGrid);
 
 function renderProductsGrid() {
+    console.log('render products on main page')
 
   let productsHTML = '';
 

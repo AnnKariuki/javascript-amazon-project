@@ -102,11 +102,14 @@ export function loadProducts(fun) {
       return new Product(productDetails);
     });
 
-    console.log('load products');
+    // console.log('load products');
 
     //wait for http request to come back with response then run the follow up code
     fun();
   });
+
+  // console.log(typeof(fun))
+  // console.log('which case')
 
 
   xhr.open('GET', 'https://supersimplebackend.dev/products');
@@ -115,7 +118,9 @@ export function loadProducts(fun) {
   xhr.send();
 }
 
-loadProducts();
+loadProducts(() => {
+  console.log('huh')
+});
 /*
 export const products = [
   {

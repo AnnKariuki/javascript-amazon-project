@@ -5,6 +5,7 @@ import { loadProducts } from '../data/products.js';
 // import '../data/backend-practice.js'
 
 loadProducts(() => {
+      console.log('checkout page case')
     renderOrderSummary();
     renderPaymentSummary();
 });
