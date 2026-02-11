@@ -87,6 +87,33 @@ class Clothing extends Product {
 
 export let products = [];
 
+export function loadProductsFetch() {
+  //send a request to the backend and creates a promise
+  const promise = fetch('https://supersimplebackend.dev/products').then((response) => {
+    console.log(response);
+    //this is asyn and returns a promise. we need to wait for the promise to finish. to do tis we say return which will wait for this promise to finish before going to the next step
+    return response.json();
+    //when respose.json finishes it will give us the data attached to the response and will save it inside the parameter below
+  }).then((productsData) => {
+    products = productsData.map((productDetails) => {
+      if (productDetails.type === 'clothing') {
+        return new Clothing(productDetails);
+      }
+      return new Product(productDetails);
+    });
+
+    console.log('load products');
+
+  });
+
+  return promise;
+}
+
+/*
+loadProductsFetch().then(() => {
+  console.log('next step');
+})
+  */
 //fun here is a callback, it is a function to run in the future
 export function loadProducts(fun) {
   //XMLHttpRequest (XHR) objects are used to interact with servers. You can retrieve data from a URL without having to do a full page refresh. 
