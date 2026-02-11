@@ -119,7 +119,7 @@ export function loadProducts(fun) {
 }
 
 loadProducts(() => {
-  console.log('huh')
+  // console.log('huh')
 });
 /*
 export const products = [

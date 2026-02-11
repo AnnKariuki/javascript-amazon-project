@@ -97,3 +97,27 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
 
   saveToStorage();
 }
+
+export function loadCart(fun) {
+  //XMLHttpRequest (XHR) objects are used to interact with servers. You can retrieve data from a URL without having to do a full page refresh. 
+  // This enables a Web page to update just part of a page without disrupting what the user is doing.
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', () => {
+   //convert json response to javascript object then convert them to Product and Clothing objects
+    console.log(xhr.response)
+    // console.log('load products');
+
+    //wait for http request to come back with response then run the follow up code
+    fun();
+  });
+
+  // console.log(typeof(fun))
+  // console.log('which case')
+
+
+  xhr.open('GET', 'https://supersimplebackend.dev/cart');
+  //.send() is asynchronous, it will just send a request and not wait for a response to come back. In order to wait for a response we need to have an event listener on the object 
+  // waiting for the response to load
+  xhr.send();
+}
