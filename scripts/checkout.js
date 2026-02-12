@@ -5,6 +5,21 @@ import { loadCart } from '../data/cart.js';
 // import '../data/cart-class.js';
 // import '../data/backend-practice.js'
 
+async function loadPage() {
+  await loadProductsFetch();
+
+  await new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  });
+
+  renderOrderSummary();
+  renderPaymentSummary();
+}
+
+loadPage();
+/*
 Promise.all([
   loadProductsFetch(),
   new Promise((resolve) => {
@@ -18,6 +33,8 @@ Promise.all([
   renderOrderSummary();
   renderPaymentSummary();
 });
+
+*/
 /*
 // start promise, call asyn function which will finish loading products. we stop until func finishes and then resolve is called. calling resolve goes to the next step which runs the final function
 new Promise((resolve) => {
