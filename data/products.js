@@ -104,11 +104,13 @@ export function loadProductsFetch() {
 
     console.log('load products');
 
+  }).catch((error) => {
+      console.log('Unexpected error. Please try again later.')
   });
 
   return promise;
 }
-
+loadProductsFetch();
 /*
 loadProductsFetch().then(() => {
   console.log('next step');
@@ -121,7 +123,7 @@ export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
 
   xhr.addEventListener('load', () => {
-   //convert json response to javascript object then convert them to Product and Clothing objects
+    //convert json response to javascript object then convert them to Product and Clothing objects
     products = JSON.parse(xhr.response).map((productDetails) => {
       if (productDetails.type === 'clothing') {
         return new Clothing(productDetails);
@@ -135,6 +137,11 @@ export function loadProducts(fun) {
     fun();
   });
 
+  xhr.addEventListener('error', (error) => {
+    console.log(error)
+    console.log('Unexpected error. Please try again later.')
+  });
+
   // console.log(typeof(fun))
   // console.log('which case')
 
@@ -144,7 +151,9 @@ export function loadProducts(fun) {
   // waiting for the response to load
   xhr.send();
 }
-
+loadProducts(() => {
+  // console.log('huh')
+})
 loadProducts(() => {
   // console.log('huh')
 });
